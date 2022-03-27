@@ -29,6 +29,7 @@ export const useStopwatch = (
   const isRunning = ref(autoStart)
 
   function start() {
+    if(isRunning.value) return;
     prevTime.value = epochSeconds()
     isRunning.value = true
     seconds.value =
@@ -55,10 +56,10 @@ export const useStopwatch = (
     passedSeconds.value = offset
     seconds.value = +passedSeconds.value
     Time.getSecondsFromPrevTime(prevTime.value, true)
-    if (isRunning.value) start()
+    if (isRunning.value && autoStart) start()
   }
 
-  if (isRunning.value) start()
+  if (isRunning.value && autoStart) start()
   return {
     ...Time.getTimeFromSeconds(seconds),
     start,
